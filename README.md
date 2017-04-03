@@ -14,7 +14,7 @@ Start your django and react project with this boilerplate.
 ### Installation
 ```bash
     $ pip install -r requirements.txt
-    $ cd project
+    $ cd <project name>
     $ npm install
 ```
 
