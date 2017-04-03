@@ -30,5 +30,3 @@ Start your django and react project with this boilerplate.
 * There no circular dependencies, because of unidirectional dependencies in virtual DOM(see the picture)
 * It fast, because it uses a virtual DOM, and syncs only the changed parts with the underlying page.
 * And virtual DOM updates fast
-
-![react](imgs/img.png)
