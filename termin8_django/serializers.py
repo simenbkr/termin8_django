@@ -18,4 +18,6 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class PlantSerializer(ModelSerializer):
     class Meta:
         model = Plant
-        fields = '__all__'
+        fields = ('id','name', 'max_temp', 'min_temp',
+                  'min_moisture', 'max_moisture',
+                  'last_watered', 'automatic_water')
