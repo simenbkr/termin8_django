@@ -21,6 +21,7 @@ from django.contrib import admin
 router = SimpleRouter()
 
 router.register(r'plant', views.PlantViewSet)
+router.register(r'room', views.RoomViewSet)
 
 
 urlpatterns = [

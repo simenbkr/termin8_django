@@ -21,3 +21,8 @@ class PlantSerializer(ModelSerializer):
         fields = ('id','name', 'max_temp', 'min_temp',
                   'min_moisture', 'max_moisture',
                   'last_watered', 'automatic_water')
+
+class RoomSerializer(ModelSerializer):
+    class Meta:
+        model = Room
+        fields = '__all__'
