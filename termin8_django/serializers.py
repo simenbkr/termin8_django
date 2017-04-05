@@ -20,6 +20,12 @@ class RoomSerializer(ModelSerializer):
         model = Room
         fields = '__all__'
 
+class PlantTypeSerializser(ModelSerializer):
+
+    class Meta:
+        model = PlantType
+        fields = '__all__'
+
 
 class SensorHistorySerializer(ModelSerializer):
     plant_id = serializers.PrimaryKeyRelatedField(read_only=True)

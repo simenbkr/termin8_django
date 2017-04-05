@@ -36,3 +36,8 @@ class SensorHistoryViewSet(viewsets.ModelViewSet):
 class WateringHistoryViewSet(viewsets.ModelViewSet):
     queryset = WateringHistory.objects.all()
     serializer_class = WateringHistorySerializer
+
+
+class PlantTypeViewSet(viewsets.ModelViewSet):
+    queryset = PlantType.objects.all()
+    serializer_class = PlantTypeSerializser
