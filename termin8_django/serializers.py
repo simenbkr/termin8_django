@@ -18,9 +18,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class PlantSerializer(ModelSerializer):
     class Meta:
         model = Plant
-        fields = ('id','name', 'max_temp', 'min_temp',
-                  'min_moisture', 'max_moisture',
-                  'last_watered', 'automatic_water')
+        fields = '__all__'
 
 class RoomSerializer(ModelSerializer):
     class Meta:
