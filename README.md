@@ -1,6 +1,3 @@
-# termin8_django backend
-
-Backend for the website and interfaces between frontend and main controller and database.
 
 
 Setting up the backend on your local machine:
@@ -21,5 +18,18 @@ To run the local dev server:
 
     cd termin8_django
     python manage.py runserver
+
+Note: To get any specific branch (i.e. dev) do the following:
+
+    git fetch
+    git checkout <branchname>
+
+To create a new branch and push it to github/origin:
+
+    git branch <newbranchname>
+    <do some coding>
+    git add <files>
+    git commit -m "<message>"
+    git push -u origin <newbranchname>
 
 Please report any issues on Slack or in the issues tab above.
