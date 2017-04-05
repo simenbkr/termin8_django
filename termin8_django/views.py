@@ -18,10 +18,21 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+
 class PlantViewSet(viewsets.ModelViewSet):
     queryset = Plant.objects.all()
     serializer_class = PlantSerializer
 
+
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
+
+class SensorHistoryViewSet(viewsets.ModelViewSet):
+    queryset = SensorHistory.objects.all()
+    serializer_class = SensorHistorySerializer
+
+class WateringHistoryViewSet(viewsets.ModelViewSet):
+    queryset = WateringHistory.objects.all()
+    serializer_class = WateringHistorySerializer

@@ -4,19 +4,34 @@ from django.contrib.auth.models import User
 from django.db import models
 from datetime import datetime
 from time import time
-
-default_timestamp = datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S')
+from termin8_django.models import *
 
 class AppUser(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=512)
 
+    def __unicode__(self):
+        return self.email
+    def __str__(self):
+        return self.__unicode__()
+
 class Room(models.Model):
     name = models.CharField(max_length=100)
 
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.__unicode__()
 
 class PlantType(models.Model):
     name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
 
 class Plant(models.Model):
     name = models.CharField(max_length=45)
@@ -29,19 +44,60 @@ class Plant(models.Model):
     room = models.ForeignKey(Room)
     plant_type = models.ForeignKey(PlantType)
 
+    def get_watering_history(self):
+        return list(WateringHistory.objects.filter(plant=self))
+
+    def get_sensor_history(self):
+        return list(SensorHistory.objects.filter(plant=self))
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
 
 
 class SensorHistory(models.Model):
     plant = models.ForeignKey(Plant)
     temp = models.FloatField()
     moisture = models.FloatField()
-    timestamp = models.TimeField(default=default_timestamp)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.timestamp
+
+    def __str__(self):
+        return self.__unicode__()
+
+    def get_temp(self):
+        return self.temp
+
+    def get_moisture(self):
+        return self.moisture
+
+    def get_timestamp(self):
+        return self.timestamp
+
 
 class WateringHistory(models.Model):
     plant = models.ForeignKey(Plant)
     temp = models.FloatField()
     moisture = models.FloatField()
-    time_watered = models.TimeField(default=default_timestamp)
+    time_watered = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.time_watered.__str__()
+
+    def get_temp(self):
+        return self.temp
+
+    def get_moisture(self):
+        return self.moisture
+
+    def get_timestamp(self):
+        return self.time_watered
+
 
 class UserOwnsPlant(models.Model):
     plant = models.ForeignKey(Plant)

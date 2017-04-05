@@ -22,6 +22,8 @@ router = SimpleRouter()
 
 router.register(r'plant', views.PlantViewSet)
 router.register(r'room', views.RoomViewSet)
+router.register(r'sensorhistory', views.SensorHistoryViewSet)
+router.register(r'wateringhistory', views.WateringHistoryViewSet)
 
 
 urlpatterns = [
