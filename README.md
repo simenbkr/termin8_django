@@ -7,7 +7,7 @@ Install the following dependencies (using i.e. pip or another package manager):
 
     django
     djangorestframework
-    python-mysql
+    mysql-python
 
 Then clone this repo to your local machine:
 
