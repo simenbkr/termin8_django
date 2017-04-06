@@ -1,6 +1,11 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from serializers import *
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -41,3 +46,18 @@ class WateringHistoryViewSet(viewsets.ModelViewSet):
 class PlantTypeViewSet(viewsets.ModelViewSet):
     queryset = PlantType.objects.all()
     serializer_class = PlantTypeSerializser
+
+
+def login_template(request):
+    return render(request, 'accounts/login.html', {})
+
+
+@csrf_exempt
+def login_user(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return HttpResponse(str("Success"))
+    return HttpResponse(str("Failure"))

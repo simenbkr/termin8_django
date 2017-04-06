@@ -6,6 +6,7 @@ from datetime import datetime
 from time import time
 from termin8_django.models import *
 
+
 class AppUser(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=512)
