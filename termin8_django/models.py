@@ -5,8 +5,9 @@ from django.db import models
 from datetime import datetime
 from time import time
 from termin8_django.models import *
+from django.contrib.auth.models import User
 
-
+"""
 class AppUser(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=512)
@@ -15,6 +16,8 @@ class AppUser(models.Model):
         return self.email
     def __str__(self):
         return self.__unicode__()
+"""
+
 
 class Room(models.Model):
     name = models.CharField(max_length=100)
@@ -56,7 +59,6 @@ class Plant(models.Model):
 
     def __str__(self):
         return self.__unicode__()
-
 
 
 class SensorHistory(models.Model):
@@ -102,4 +104,4 @@ class WateringHistory(models.Model):
 
 class UserOwnsPlant(models.Model):
     plant = models.ForeignKey(Plant)
-    user = models.ForeignKey(AppUser)
+    user = models.ForeignKey(User)

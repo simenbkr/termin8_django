@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
     url(r'^auth/', views.login_user, name='authenticate'),
-    url(r'^login/', views.login_template, name='testing')
+    url(r'^login/', views.login_template, name='testing'),
+    url(r'^logout/', views.logout_user, name='logout')
 ]

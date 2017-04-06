@@ -61,3 +61,8 @@ def login_user(request):
         login(request, user)
         return HttpResponse(str("Success"))
     return HttpResponse(str("Failure"))
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponse(str("Logged out"))
