@@ -47,7 +47,7 @@ class PlantTypeViewSet(viewsets.ModelViewSet):
     queryset = PlantType.objects.all()
     serializer_class = PlantTypeSerializser
 
-
+@csrf_exempt
 def login_template(request):
     return render(request, 'accounts/login.html', {})
 
@@ -62,7 +62,7 @@ def login_user(request):
         return HttpResponse(str("Success"))
     return HttpResponse(str("Failure"))
 
-
+@csrf_exempt
 def logout_user(request):
     logout(request)
     return HttpResponse(str("Logged out"))

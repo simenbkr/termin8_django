@@ -47,6 +47,7 @@ class Plant(models.Model):
     automatic_water = models.BooleanField()
     room = models.ForeignKey(Room)
     plant_type = models.ForeignKey(PlantType)
+    owned_by = models.ManyToManyField(User)
 
     def get_watering_history(self):
         return list(WateringHistory.objects.filter(plant=self))
