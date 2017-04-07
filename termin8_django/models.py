@@ -7,6 +7,8 @@ from time import time
 from termin8_django.models import *
 from django.contrib.auth.models import User
 
+from rest_framework.authentication import SessionAuthentication
+
 """
 class AppUser(models.Model):
     email = models.CharField(max_length=100)

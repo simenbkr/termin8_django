@@ -20,11 +20,11 @@ from django.contrib import admin
 
 router = SimpleRouter()
 
-router.register(r'plant', views.PlantViewSet)
-router.register(r'room', views.RoomViewSet)
-router.register(r'sensorhistory', views.SensorHistoryViewSet)
-router.register(r'wateringhistory', views.WateringHistoryViewSet)
-router.register(r'planttype', views.PlantTypeViewSet)
+router.register(r'plant', views.PlantViewSet, 'Plant')
+router.register(r'room', views.RoomViewSet, 'Room')
+router.register(r'sensorhistory', views.SensorHistoryViewSet, 'SensorHistory')
+router.register(r'wateringhistory', views.WateringHistoryViewSet, 'WateringHistory')
+router.register(r'planttype', views.PlantTypeViewSet, 'PlantType')
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

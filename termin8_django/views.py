@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from termin8_django.models import *
+from rest_framework import viewsets, generics
 from serializers import *
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
@@ -24,9 +25,17 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 
-class PlantViewSet(viewsets.ModelViewSet):
-    queryset = Plant.objects.all()
+class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
+    #queryset = Plant.objects.all()
     serializer_class = PlantSerializer
+
+    def get_queryset(self):
+        """
+        Only return the Plants the current
+        user is an owner of. 
+        """
+        user = self.request.user
+        return Plant.objects.filter(owned_by=user)
 
 
 class RoomViewSet(viewsets.ModelViewSet):
