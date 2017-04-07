@@ -26,7 +26,8 @@ class RoomSerializer(ModelSerializer):
         model = Room
         fields = '__all__'
 
-class PlantTypeSerializser(ModelSerializer):
+
+class PlantTypeSerializer(ModelSerializer):
 
     class Meta:
         model = PlantType
@@ -35,13 +36,13 @@ class PlantTypeSerializser(ModelSerializer):
 
 class SensorHistorySerializer(ModelSerializer):
     plant_id = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = SensorHistory
         fields = ('id', 'temp', 'moisture', 'timestamp', 'plant_id')
 
 
 class WateringHistorySerializer(ModelSerializer):
-    plant_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = WateringHistory

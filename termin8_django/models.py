@@ -104,6 +104,11 @@ class WateringHistory(models.Model):
     def get_timestamp(self):
         return self.time_watered
 
+    def is_owner(self, user):
+        if user == self.plant.owned_by:
+            return True
+        return False
+
 
 class UserOwnsPlant(models.Model):
     plant = models.ForeignKey(Plant)

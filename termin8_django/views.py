@@ -26,7 +26,6 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
-    #queryset = Plant.objects.all()
     serializer_class = PlantSerializer
 
     def get_queryset(self):
@@ -44,17 +43,33 @@ class RoomViewSet(viewsets.ModelViewSet):
 
 
 class SensorHistoryViewSet(viewsets.ModelViewSet):
-    queryset = SensorHistory.objects.all()
     serializer_class = SensorHistorySerializer
 
+    def get_queryset(self):
+        """
+        Only return sensor data
+        about plants owned by user
+        """
+        user = self.request.user
+        return SensorHistory.objects.filter(plant__owned_by=user)
+
+
 class WateringHistoryViewSet(viewsets.ModelViewSet):
-    queryset = WateringHistory.objects.all()
     serializer_class = WateringHistorySerializer
+
+    def get_queryset(self):
+        """"
+        Only return watering data
+        about plants owned by user
+        """
+        user = self.request.user
+        return WateringHistory.objects.filter(plant__owned_by=user)
 
 
 class PlantTypeViewSet(viewsets.ModelViewSet):
     queryset = PlantType.objects.all()
-    serializer_class = PlantTypeSerializser
+    serializer_class = PlantTypeSerializer
+
 
 @csrf_exempt
 def login_template(request):
