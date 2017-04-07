@@ -33,3 +33,17 @@ To create a new branch and push it to github/origin:
     git push -u origin <newbranchname>
 
 Please report any issues on Slack or in the issues tab above.
+
+
+#Usage
+Current endpoints (base_url/api/`endpoint`):
+
+    plant
+    planttype
+    wateringhistory
+    sensorhistory
+    room
+
+These are following the REST standard - i.e. sending a GET request to base_url/api/plant will return all plants (that the user you are authenticated as can access). Sending a PUT-request to base_url/api/plant/`id` will update the plant with the JSON-object that was PUT (if accepted/valid).
+
+To authenticate send a POST request with username and password to `base_url/auth/`. 
