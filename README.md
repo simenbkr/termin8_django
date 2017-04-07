@@ -35,7 +35,7 @@ To create a new branch and push it to github/origin:
 Please report any issues on Slack or in the issues tab above.
 
 
-#Usage
+## Usage
 Current endpoints (base_url/api/`endpoint`):
 
     plant
