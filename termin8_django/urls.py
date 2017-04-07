@@ -20,10 +20,16 @@ from django.contrib import admin
 
 router = SimpleRouter()
 
-router.register(r'plant', views.PlantViewSet)
-
+router.register(r'plant', views.PlantViewSet, 'Plant')
+router.register(r'room', views.RoomViewSet, 'Room')
+router.register(r'sensorhistory', views.SensorHistoryViewSet, 'SensorHistory')
+router.register(r'wateringhistory', views.WateringHistoryViewSet, 'WateringHistory')
+router.register(r'planttype', views.PlantTypeViewSet, 'PlantType')
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
+    url(r'^auth/', views.login_user, name='authenticate'),
+    url(r'^login/', views.login_template, name='testing'),
+    url(r'^logout/', views.logout_user, name='logout')
 ]
