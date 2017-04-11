@@ -29,8 +29,13 @@ class Room(models.Model):
     def __str__(self):
         return self.__unicode__()
 
+
 class PlantType(models.Model):
     name = models.CharField(max_length=100)
+    max_temp = models.FloatField()
+    min_temp = models.FloatField()
+    min_moisture = models.FloatField()
+    max_moisture = models.FloatField()
 
     def __unicode__(self):
         return self.name
@@ -41,11 +46,11 @@ class PlantType(models.Model):
 
 class Plant(models.Model):
     name = models.CharField(max_length=45)
-    max_temp = models.FloatField()
-    min_temp = models.FloatField()
-    min_moisture = models.FloatField()
-    max_moisture = models.FloatField()
-    last_watered = models.TimeField()
+#    max_temp = models.FloatField()
+#    min_temp = models.FloatField()
+#    min_moisture = models.FloatField()
+#    max_moisture = models.FloatField()
+    last_watered = models.TimeField(null=True)
     automatic_water = models.BooleanField()
     room = models.ForeignKey(Room)
     plant_type = models.ForeignKey(PlantType)

@@ -1,3 +1,4 @@
 node_modules
 migrations
 termin8_django/migrations
+*.pyc
