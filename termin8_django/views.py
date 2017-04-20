@@ -3,6 +3,7 @@ from termin8_django.models import *
 from rest_framework import viewsets, generics
 from serializers import *
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -69,6 +70,30 @@ class WateringHistoryViewSet(viewsets.ModelViewSet):
 class PlantTypeViewSet(viewsets.ModelViewSet):
     queryset = PlantType.objects.all()
     serializer_class = PlantTypeSerializer
+
+
+@csrf_exempt
+@login_required
+def water_plant(request):
+    import paho.mqtt.client as mqtt
+    client = mqtt.Client()
+    client.username_pw_set('termin8', 'jeghaterbarnmedraraksent')
+    client.connect('termin8.tech', 8883,300)
+
+    plant_id = request.POST.get('plant_id')
+    #    the_time = request.POST.get('time')
+    the_time = 1
+    topic = 'controller/{}'.format(plant_id)
+    payload = 'time:{}'.format(the_time)
+
+    client.publish(topic, payload)
+
+    return HttpResponse(str('Started watering plant with id {} for {}s'.format(plant_id, the_time)))
+
+
+@csrf_exempt
+def show_page(request):
+    return render(request, 'react/index.html')
 
 
 @csrf_exempt

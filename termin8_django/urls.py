@@ -31,5 +31,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^auth/', views.login_user, name='authenticate'),
     url(r'^login/', views.login_template, name='testing'),
-    url(r'^logout/', views.logout_user, name='logout')
+    url(r'^logout/', views.logout_user, name='logout'),
+    url(r'^water/', views.water_plant, name='waterplant'),
+    url(r'^.*/$', views.show_page, name='react')
 ]
