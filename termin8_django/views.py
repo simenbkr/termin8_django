@@ -93,7 +93,8 @@ def water_plant(request):
 
 @csrf_exempt
 def show_page(request):
-    return render(request, 'react/index.html')
+    return render(request, 'react/index.html', {})
+
 
 
 @csrf_exempt

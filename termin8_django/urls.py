@@ -17,6 +17,8 @@ from termin8_django import views
 from rest_framework.routers import SimpleRouter
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import TemplateView
+
 
 router = SimpleRouter()
 
@@ -33,5 +35,7 @@ urlpatterns = [
     url(r'^login/', views.login_template, name='testing'),
     url(r'^logout/', views.logout_user, name='logout'),
     url(r'^water/', views.water_plant, name='waterplant'),
-    url(r'^.*/$', views.show_page, name='react')
+    url(r'^$', TemplateView.as_view(template_name='index.html'))
+    #url(r'^$', views.show_page, name='react_1')
+    #url(r'^.*/$', views.show_page, name='react')
 ]
