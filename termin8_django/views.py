@@ -50,7 +50,6 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         return Plant.objects.filter(owned_by=user)
 
 
-
 class RoomViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = Room.objects.all()

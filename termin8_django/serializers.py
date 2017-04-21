@@ -70,5 +70,7 @@ class PlantSerializer(ModelSerializer):
             return {'temp': obj.get_watering_history()[-1].get_temp(), 'moisture': obj.get_watering_history()[-1].get_moisture()}
         return {}
 
-
-
+    def create(self, validated_data):
+        plant = Plant.objects.create(**validated_data)
+        UserOwnsPlant.objects.create(1, plant.pk)
+        return plant
