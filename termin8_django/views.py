@@ -49,6 +49,10 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         user = self.request.user
         return Plant.objects.filter(owned_by=user)
 
+    def create(self, request, *args, **kwargs):
+        Plant.objects.create(**kwargs)
+        UserOwnsPlant.objects.create(**kwargs)
+
 
 class RoomViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
