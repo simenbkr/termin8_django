@@ -68,6 +68,15 @@ class Plant(models.Model):
     def __str__(self):
         return self.__unicode__()
 
+    @staticmethod
+    def get_by_id(self, id):
+        if list(Plant.objects.filter(pk=id)):
+            return list(Plant.objects.filter(pk=id))[0]
+        return None
+
+    def owned_by_user(self, user):
+        return len(self.owned_by.filter(plant__owned_by=user)) > 0
+
 
 class SensorHistory(models.Model):
     plant = models.ForeignKey(Plant)

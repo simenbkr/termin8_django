@@ -1,3 +1,4 @@
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User, Group
 from termin8_django.models import *
 from rest_framework import viewsets, generics
@@ -87,16 +88,29 @@ class PlantTypeViewSet(viewsets.ModelViewSet):
     serializer_class = PlantTypeSerializer
 
 
+@require_http_methods(['POST'])
 @csrf_exempt
 @login_required
 def water_plant(request):
+
+    plant_id = request.POST.get('plant')
+    if not plant_id: return HttpResponse(str('You did not provide a plant id!'))
+
+    plant = Plant.get_by_id(Plant, plant_id)
+    if not plant:
+        return HttpResponse(str('No plants with that id!'))
+
+    user = request.user
+    if not (plant.owned_by_user(user)):
+        return HttpResponse(str('You dont own that plant!'))
+
+#    We gucchi, now lets post to the MQTT-broker.
     import paho.mqtt.client as mqtt
     client = mqtt.Client()
     client.username_pw_set('termin8', 'jeghaterbarnmedraraksent')
     client.connect('termin8.tech', 8883,300)
 
-    plant_id = request.POST.get('plant_id')
-    #    the_time = request.POST.get('time')
+#    the_time = request.POST.get('time')
     the_time = 1
     topic = 'controller/{}'.format(plant_id)
     payload = 'time:{}'.format(the_time)
