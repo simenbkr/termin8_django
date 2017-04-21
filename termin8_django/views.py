@@ -50,7 +50,7 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         return Plant.objects.filter(owned_by=user)
 
     def create(self, request, *args, **kwargs):
-        Plant.objects.create(**kwargs)
+        Plant.objects.create(*args, **kwargs)
         UserOwnsPlant.objects.create(**kwargs)
 
 
