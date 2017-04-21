@@ -50,7 +50,8 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         return Plant.objects.filter(owned_by=user)
 
     def perform_create(self, serializer):
-        property = serializer.save(owned_by=self.request.user)
+        serializer.save(owner=self.request.user)
+
 
 class RoomViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
