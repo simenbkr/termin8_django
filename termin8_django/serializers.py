@@ -53,7 +53,7 @@ class PlantSerializer(ModelSerializer):
     #owned_by = UserSerializer(read_only=True, many=True)
     sensor_data = serializers.SerializerMethodField()
     watering_history = serializers.SerializerMethodField()
-    plant_type = PlantTypeSerializer(read_only=True)
+    plant_type = PlantTypeSerializer()
 
     class Meta:
         model = Plant
