@@ -51,7 +51,7 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
 
     def create(self, request, *args, **kwargs):
         Plant.objects.create(*args, **kwargs)
-        UserOwnsPlant.objects.create(**kwargs)
+        UserOwnsPlant.objects.create(*args, **kwargs)
 
 
 class RoomViewSet(viewsets.ModelViewSet):
