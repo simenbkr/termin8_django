@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
 
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
