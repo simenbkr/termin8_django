@@ -10,7 +10,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
 
+from rest_framework.authentication import SessionAuthentication
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
+
+
 class UserViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -27,6 +37,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = PlantSerializer
 
     def get_queryset(self):
@@ -39,11 +50,13 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
 
 
 class RoomViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
 
 class SensorHistoryViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = SensorHistorySerializer
 
     def get_queryset(self):
@@ -56,6 +69,7 @@ class SensorHistoryViewSet(viewsets.ModelViewSet):
 
 
 class WateringHistoryViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = WateringHistorySerializer
 
     def get_queryset(self):
@@ -68,6 +82,7 @@ class WateringHistoryViewSet(viewsets.ModelViewSet):
 
 
 class PlantTypeViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = PlantType.objects.all()
     serializer_class = PlantTypeSerializer
 
@@ -93,7 +108,7 @@ def water_plant(request):
 
 @csrf_exempt
 def show_page(request):
-    return render(request, 'react/index.html', {})
+    return render(request, 'index.html', {})
 
 
 
