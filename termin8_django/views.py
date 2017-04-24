@@ -100,15 +100,15 @@ def water_plant(request):
 
     #plant_id = request.POST.get('plant')
     plant_id = received_json_data['plant']
-    if not plant_id: return HttpResponse(str('You did not provide a plant id! {}'.format(plant_id)))
+    if not plant_id: return HttpResponse(str('You did not provide a plant id!'))
 
     plant = Plant.get_by_id(Plant, plant_id)
     if not plant:
-        return HttpResponse(str('No plants with that id! {}'.format(plant_id)))
+        return HttpResponse(str('No plants with that id!'))
 
     user = request.user
     if not (plant.owned_by_user(user)):
-        return HttpResponse(str('You dont own that plant! {}'.format(plant_id)))
+        return HttpResponse(str('You dont own that plant!'))
 
 #    We gucchi, now lets post to the MQTT-broker.
     import paho.mqtt.client as mqtt
