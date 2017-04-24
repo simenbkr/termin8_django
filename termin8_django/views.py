@@ -50,7 +50,8 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         return Plant.objects.filter(owned_by=user)
 
     def perform_create(self, serializer):
-        serializer.save(owned_by=self.request.user)
+        property = serializer.save(owned_by=self.request.user)
+        property.owned_by.add(self.request.user)
 
 
 class RoomViewSet(viewsets.ModelViewSet):

@@ -100,6 +100,7 @@ class SensorHistory(models.Model):
         return self.timestamp
 
 
+
 class WateringHistory(models.Model):
     plant = models.ForeignKey(Plant)
     temp = models.FloatField()

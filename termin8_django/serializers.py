@@ -69,3 +69,4 @@ class PlantSerializer(ModelSerializer):
         if obj.get_watering_history():
             return {'temp': obj.get_watering_history()[-1].get_temp(), 'moisture': obj.get_watering_history()[-1].get_moisture()}
         return {}
+
