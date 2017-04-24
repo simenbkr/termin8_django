@@ -95,17 +95,20 @@ class PlantTypeViewSet(viewsets.ModelViewSet):
 @csrf_exempt
 @login_required
 def water_plant(request):
+    import json
+    received_json_data = json.loads(request.body)
 
-    plant_id = request.POST.get('plant')
-    if not plant_id: return HttpResponse(str('You did not provide a plant id!'))
+    #plant_id = request.POST.get('plant')
+    plant_id = received_json_data['plant']
+    if not plant_id: return HttpResponse(str('You did not provide a plant id! {}'.format(plant_id)))
 
     plant = Plant.get_by_id(Plant, plant_id)
     if not plant:
-        return HttpResponse(str('No plants with that id!'))
+        return HttpResponse(str('No plants with that id! {}'.format(plant_id)))
 
     user = request.user
     if not (plant.owned_by_user(user)):
-        return HttpResponse(str('You dont own that plant!'))
+        return HttpResponse(str('You dont own that plant! {}'.format(plant_id)))
 
 #    We gucchi, now lets post to the MQTT-broker.
     import paho.mqtt.client as mqtt
