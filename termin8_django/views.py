@@ -1,15 +1,27 @@
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User, Group
 from termin8_django.models import *
 from rest_framework import viewsets, generics
 from serializers import *
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
+
+
 class UserViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -26,6 +38,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = PlantSerializer
 
     def get_queryset(self):
@@ -36,13 +49,18 @@ class PlantViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         user = self.request.user
         return Plant.objects.filter(owned_by=user)
 
+    def perform_create(self, serializer):
+        serializer.save(owned_by = [self.request.user])
+
 
 class RoomViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
 
 class SensorHistoryViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = SensorHistorySerializer
 
     def get_queryset(self):
@@ -55,6 +73,7 @@ class SensorHistoryViewSet(viewsets.ModelViewSet):
 
 
 class WateringHistoryViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = WateringHistorySerializer
 
     def get_queryset(self):
@@ -67,8 +86,50 @@ class WateringHistoryViewSet(viewsets.ModelViewSet):
 
 
 class PlantTypeViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = PlantType.objects.all()
     serializer_class = PlantTypeSerializer
+
+
+@require_http_methods(['POST'])
+@csrf_exempt
+@login_required
+def water_plant(request):
+    import json
+    received_json_data = json.loads(request.body)
+
+    #plant_id = request.POST.get('plant')
+    plant_id = received_json_data['plant']
+    if not plant_id: return HttpResponse(str('You did not provide a plant id!'))
+
+    plant = Plant.get_by_id(Plant, plant_id)
+    if not plant:
+        return HttpResponse(str('No plants with that id!'))
+
+    user = request.user
+    if not (plant.owned_by_user(user)):
+        return HttpResponse(str('You dont own that plant!'))
+
+#    We gucchi, now lets post to the MQTT-broker.
+    import paho.mqtt.client as mqtt
+    client = mqtt.Client()
+    client.username_pw_set('termin8', 'jeghaterbarnmedraraksent')
+    client.connect('termin8.tech', 8883,300)
+
+#    the_time = request.POST.get('time')
+    the_time = 1
+    topic = 'controller/{}'.format(plant_id)
+    payload = 'time:{}'.format(the_time)
+
+    client.publish(topic, payload)
+
+    return HttpResponse(str('Started watering plant with id {} for {}s'.format(plant_id, the_time)))
+
+
+@csrf_exempt
+def show_page(request):
+    return render(request, 'index.html', {})
+
 
 
 @csrf_exempt

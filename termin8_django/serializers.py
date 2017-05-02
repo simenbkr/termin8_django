@@ -53,14 +53,12 @@ class PlantSerializer(ModelSerializer):
     #owned_by = UserSerializer(read_only=True, many=True)
     sensor_data = serializers.SerializerMethodField()
     watering_history = serializers.SerializerMethodField()
-    plant_type = PlantTypeSerializer(read_only=True)
+    #plant_type_info = PlantTypeSerializer(read_only=True)
 
     class Meta:
         model = Plant
         fields = ('id', 'name', 'room', 'sensor_data',
-                  'watering_history', 'automatic_water',
-                  'plant_type')
-
+                  'watering_history', 'automatic_water', 'plant_type')
 
     def get_sensor_data(self, obj):
         if obj.get_sensor_history():
@@ -71,3 +69,4 @@ class PlantSerializer(ModelSerializer):
         if obj.get_watering_history():
             return {'temp': obj.get_watering_history()[-1].get_temp(), 'moisture': obj.get_watering_history()[-1].get_moisture()}
         return {}
+

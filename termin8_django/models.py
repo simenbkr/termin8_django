@@ -50,7 +50,7 @@ class Plant(models.Model):
 #    min_temp = models.FloatField()
 #    min_moisture = models.FloatField()
 #    max_moisture = models.FloatField()
-    last_watered = models.TimeField(null=True)
+    last_watered = models.DateTimeField(null=True, auto_now_add=True)
     automatic_water = models.BooleanField()
     room = models.ForeignKey(Room)
     plant_type = models.ForeignKey(PlantType)
@@ -67,6 +67,15 @@ class Plant(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+
+    @staticmethod
+    def get_by_id(self, id):
+        if list(Plant.objects.filter(pk=id)):
+            return list(Plant.objects.filter(pk=id))[0]
+        return None
+
+    def owned_by_user(self, user):
+        return len(self.owned_by.filter(plant__owned_by=user)) > 0
 
 
 class SensorHistory(models.Model):
@@ -89,6 +98,7 @@ class SensorHistory(models.Model):
 
     def get_timestamp(self):
         return self.timestamp
+
 
 
 class WateringHistory(models.Model):
